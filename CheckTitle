@@ -1,0 +1,38 @@
+from playwright.sync_api import sync_playwright
+import time
+
+def test_check_page_title():
+    with sync_playwright() as p:
+
+        browser = p.chromium.launch()
+        page = browser.new_page()
+
+        # Открыть страницу
+        page.goto("https://playwright.dev/")
+
+        # Добавить задержку на 2 секунды перед проверкой заголовка
+        time.sleep(2)
+
+        # Получить текущий заголовок страницы
+        current_title = page.title()
+
+        # Вывод заголовка для отладки
+        #print("Current page title:", current_title)
+
+        # Искомый заголовок
+        expected_title = "Fast and reliable end-to-end testing for modern web apps | Playwright"
+
+        # Сравнение заголовка и вывод сообщения
+        if current_title == expected_title:
+            print("Заголовок страницы совпадает с ожидаемым.")
+        else:
+            print("Заголовок страницы не совпадает с ожидаемым.")
+
+        # Проверить, что заголовок страницы соответствует ожидаемому значению
+        assert current_title == expected_title
+
+        # Закрыть браузер
+        browser.close()
+
+if __name__ == "__main__":
+    test_check_page_title()
